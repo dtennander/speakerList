@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+    id "com.moowork.node" version "1.2.0"
+}
+
+group 'com.github.dito04'
+version '1.0-SNAPSHOT'
+
+node {
+    download = true
+    version = "6.11.5"
+}
+
+task buildClient(type: YarnTask) {
+    inputs.files(fileTree('node_modules'))
+    inputs.files(fileTree('src'))
+    inputs.file('package.json')
+    inputs.file('tsconfig.json')
+    inputs.file('webpack.config.js')
+    outputs.dir('dist/')
+
+    dependsOn yarn_install
+    args = ['run', 'build']
+}
