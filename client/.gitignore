@@ -2,4 +2,4 @@ build
 .gradle
 dist/assets
 node_modules/
-dist/App.*
+dist/
