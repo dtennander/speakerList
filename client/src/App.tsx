@@ -20,6 +20,16 @@ class App extends React.Component<{}, AppState> {
         this.addToSecondList = this.addToSecondList.bind(this);
     }
 
+    componentDidMount(): void {
+        fetch("/api/double/first")
+            .then(rsp => rsp.json())
+            .then(list => this.setState({first: list}))
+
+        fetch("/api/double/second")
+            .then(rsp => rsp.json())
+            .then(list => this.setState({second: list}))
+    }
+
     render() {
         return (
             <div>
