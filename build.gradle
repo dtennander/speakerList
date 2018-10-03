@@ -23,9 +23,12 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-databind:2.9.6"
 }
 
-task copyClient(type: Copy, dependsOn:':client:buildClient') {
-    from tasks.getByPath(':client:buildClient').outputs
-    into "src/main/resources/static"
+processResources {
+    from 'build/client'
 }
 
-jar.dependsOn(copyClient)
+task copyClient(type: Copy) {
+    from tasks.getByPath(':client:buildClient').outputs into "build/client/static"
+}
+
+processResources.dependsOn(copyClient)

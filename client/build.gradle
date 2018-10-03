@@ -22,3 +22,6 @@ task buildClient(type: YarnTask) {
     dependsOn yarn_install
     args = ['run', 'build']
 }
+
+yarn_install.inputs.file('package.json')
+yarn_install.outputs.dir('node_modules')
