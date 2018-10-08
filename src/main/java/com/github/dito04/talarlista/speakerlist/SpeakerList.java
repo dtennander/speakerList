@@ -11,10 +11,14 @@ class SpeakerList {
   private final List<Speaker> secondList = new ArrayList<>();
 
   Optional<String> getNextSpeaker() {
+    return getFirstSpeaker()
+        .map(Speaker::getName);
+  }
+
+  private Optional<Speaker> getFirstSpeaker() {
     return Stream.concat(firstList.stream(), secondList.stream())
         .filter(Speaker::haveNotSpoken)
-        .findFirst()
-        .map(Speaker::getName);
+        .findFirst();
   }
 
   void addToFirstList(String body) {
@@ -35,5 +39,9 @@ class SpeakerList {
     return secondList.stream()
         .map(Speaker::getName)
         .collect(Collectors.toList());
+  }
+
+  void removeFistSpeaker() {
+    getFirstSpeaker().ifPresent(Speaker::setHaveSpoken);
   }
 }

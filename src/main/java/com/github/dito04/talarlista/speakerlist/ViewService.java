@@ -4,10 +4,13 @@ import static io.javalin.apibuilder.ApiBuilder.get;
 import static io.javalin.apibuilder.ApiBuilder.post;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.dito04.talarlista.Service;
 import io.javalin.Context;
@@ -26,7 +29,10 @@ public class ViewService implements Service {
 
   @Override
   public void wire(Inbound inbound) {
-    inbound.wireRoute("double/", () -> get(this::getView));
+    inbound.wireRoute("double/", () -> {
+      get(this::getView);
+      post(this::updateSpeaker);
+    });
     inbound.wireRoute("double/first", () -> {
       get(this::getFirstList);
       post(this::addToFirst);
@@ -62,8 +68,20 @@ public class ViewService implements Service {
   }
 
   private void getView(Context context) {
-    speakerList.getNextSpeaker().ifPresentOrElse(
-        context::result,
-        () -> context.res.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY));
+    speakerList.getNextSpeaker()
+        .map(Speaker::new)
+        .ifPresentOrElse(
+          context::json,
+          () -> context.res.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY));
+  }
+
+  private void updateSpeaker(Context context) throws IOException {
+    Speaker postedSpeaker = objectMapper.readValue(context.body(), Speaker.class);
+    boolean sameSpeakerAsNext = speakerList.getNextSpeaker()
+        .filter(name -> name.equals(postedSpeaker.getName()))
+        .isPresent();
+    if (sameSpeakerAsNext && postedSpeaker.haveSpoken()) {
+      speakerList.removeFistSpeaker();
+    }
   }
 }

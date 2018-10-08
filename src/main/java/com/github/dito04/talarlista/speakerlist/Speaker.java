@@ -15,12 +15,15 @@ class Speaker {
     this.haveSpoken = false;
   }
 
+  void setHaveSpoken() {
+    this.haveSpoken = true;
+  }
   boolean haveNotSpoken() {
     return !this.haveSpoken;
   }
 
   @JsonGetter("have_spoken")
-  private boolean haveSpoken() {
+  boolean haveSpoken() {
     return haveSpoken;
   }
 
