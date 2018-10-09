@@ -2,6 +2,7 @@ import * as React from "react";
 import {PureComponent} from "react";
 import {getSpeaker, markSpeakerAsSpoken} from "../actions";
 import KeyboardListener from "../Components/KeyboardListener";
+import * as css from "./SpeakerView.css"
 
 interface State {
     speaker : string
@@ -33,7 +34,7 @@ class SpeakerView extends PureComponent<{}, State> {
 
     render(): React.ReactNode {
         return (
-            <div>
+            <div className={css.speakerView}>
                 <KeyboardListener keyboardKey={" "} onKeyPress={this.setSpeakerAsSpoken}/>
                 <h1>{this.state.speaker}</h1>
             </div>

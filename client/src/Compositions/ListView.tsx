@@ -1,7 +1,9 @@
 import * as React from "react";
 import List from "../Components/List";
 import Form from "../Components/Form";
-import {getList, ListType, postUserToList} from "../actions";
+import {getList, ListType, postUserToList, resetLists} from "../actions";
+import * as css from "./ListView.css";
+
 
 interface AppState {
     first : string[]
@@ -19,6 +21,7 @@ class ListView extends React.Component<{}, AppState> {
 
         this.addToFirstList = this.addToFirstList.bind(this);
         this.addToSecondList = this.addToSecondList.bind(this);
+        this.resetList = this.resetList.bind(this);
     }
 
     componentDidMount(): void {
@@ -30,14 +33,28 @@ class ListView extends React.Component<{}, AppState> {
 
     render() {
         return (
-            <div>
-                <h2>First List</h2>
-                <List data={this.state.first}/>
-                <Form onAdd={this.addToFirstList}/>
-
-                <h2>Second List</h2>
-                <List data={this.state.second}/>
-                <Form onAdd={this.addToSecondList}/>
+            <div className={css.listView}>
+                <div className={css.lists}>
+                    <div className={css.list}>
+                        <h2>First List</h2>
+                        <div>
+                            <List data={this.state.first}/>
+                            <Form onAdd={this.addToFirstList}
+                                  placeholder={"Add speaker..."}/>
+                        </div>
+                    </div>
+                    <div className={css.list}>
+                        <h2>Second List</h2>
+                        <div>
+                            <List data={this.state.second}/>
+                            <Form onAdd={this.addToSecondList}
+                                  placeholder={"Add speaker..."}/>
+                        </div>
+                    </div>
+                </div>
+                <div className={css.buttonDiv}>
+                    <button onClick={this.resetList}>Next Question!</button>
+                </div>
             </div>
         );
     }
@@ -50,6 +67,11 @@ class ListView extends React.Component<{}, AppState> {
     private addToSecondList(name : string) {
         postUserToList(name, "second")
             .then(list => this.setState({second: list}));
+    }
+
+    private resetList() {
+        resetLists()
+            .then(() => this.componentDidMount())
     }
 }
 

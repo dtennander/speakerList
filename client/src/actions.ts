@@ -41,3 +41,9 @@ export function markSpeakerAsSpoken(name : string) : Promise<Response | void> {
     return postJson("api/double", {name: name, have_spoken: true})
         .catch(err => console.log(err))
 }
+
+export function resetLists() : Promise<void> {
+    return fetch("api/double", {
+        method: "DELETE"
+    }).then(() => {})
+}

@@ -1,0 +1,56 @@
+.lists {
+    display: flex;
+    justify-content: space-around;
+    position:relative;
+    flex-wrap: wrap;
+}
+
+.list {
+    margin-top: 25px;
+    width: 250px;
+    padding: 0 25px 25px 25px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.list ul {
+    list-style-type: none;
+    align-content: center;
+    padding-left: 5px;
+    margin-bottom: 0;
+}
+
+.listView {
+    display: flex;
+    flex-direction: column;
+}
+
+.buttonDiv {
+    alignment: center;
+    text-align: center;
+    margin:auto;
+
+}
+
+button {
+    margin: 50px;
+    width: 250px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    background: #355aa0;
+    color: white;
+    font-size: medium;
+    font-family: 'Raleway', sans-serif;
+    transition-duration: 0.4s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+button:active {
+    transform: translateY(0px);
+    transition-duration: 0.01s;
+    box-shadow: none;
+}

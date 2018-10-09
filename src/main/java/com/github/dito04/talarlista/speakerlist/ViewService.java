@@ -1,16 +1,14 @@
 package com.github.dito04.talarlista.speakerlist;
 
+import static io.javalin.apibuilder.ApiBuilder.delete;
 import static io.javalin.apibuilder.ApiBuilder.get;
 import static io.javalin.apibuilder.ApiBuilder.post;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.dito04.talarlista.Service;
 import io.javalin.Context;
@@ -32,6 +30,7 @@ public class ViewService implements Service {
     inbound.wireRoute("double/", () -> {
       get(this::getView);
       post(this::updateSpeaker);
+      delete(this::resetList);
     });
     inbound.wireRoute("double/first", () -> {
       get(this::getFirstList);
@@ -83,5 +82,10 @@ public class ViewService implements Service {
     if (sameSpeakerAsNext && postedSpeaker.haveSpoken()) {
       speakerList.removeFistSpeaker();
     }
+  }
+
+  private void resetList(Context context) {
+    speakerList.reset();
+    context.json("Cleared");
   }
 }

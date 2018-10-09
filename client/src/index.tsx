@@ -15,7 +15,7 @@ const App : React.SFC = (props: {}) => {
                             <NavLink exact={true} to="/" activeClassName={styles.active}>Double List</NavLink>
                         </li>
                         <li>
-                            <NavLink to="/view" activeClassName={styles.active}>Speaker viewt</NavLink>
+                            <NavLink to="/view" activeClassName={styles.active}>Speaker view</NavLink>
                         </li>
                     </ul>
                 </div>

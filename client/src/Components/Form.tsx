@@ -1,8 +1,10 @@
 import * as React from "react";
 import {ChangeEvent, FormEvent, PureComponent} from "react";
+import * as css from "./Form.css"
 
 interface FormProps {
     onAdd(name: string): void;
+    placeholder? : string
 }
 
 interface FormState {
@@ -17,12 +19,12 @@ export default class Form extends PureComponent<FormProps, FormState> {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
+            <form className={css.form} onSubmit={this.handleSubmit}>
                 <input
                     type="text"
+                    placeholder={this.props.placeholder}
                     value={this.state.value}
                     onChange={this.handleChange} />
-                <button>Add</button>
             </form>
         );
     }

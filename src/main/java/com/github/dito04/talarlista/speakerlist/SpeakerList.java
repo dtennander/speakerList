@@ -44,4 +44,9 @@ class SpeakerList {
   void removeFistSpeaker() {
     getFirstSpeaker().ifPresent(Speaker::setHaveSpoken);
   }
+
+  void reset() {
+    firstList.clear();
+    secondList.clear();
+  }
 }
