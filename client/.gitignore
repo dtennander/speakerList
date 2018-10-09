@@ -3,3 +3,4 @@ build
 dist/assets
 node_modules/
 dist/
+*.css.d.ts
