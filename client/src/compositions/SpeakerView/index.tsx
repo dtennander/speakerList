@@ -1,9 +1,9 @@
 import * as React from "react";
 import {PureComponent} from "react";
-import {getSpeaker, markSpeakerAsSpoken} from "../actions";
-import KeyboardListener from "../Components/KeyboardListener";
-import * as css from "./SpeakerView.css"
-import TouchListener from "../Components/TouchListener";
+import {getSpeaker, markSpeakerAsSpoken} from "actions";
+import KeyboardListener from "components/KeyboardListener";
+import * as css from "./styles.css"
+import TouchListener from "components/TouchListener";
 
 interface State {
     speaker : string

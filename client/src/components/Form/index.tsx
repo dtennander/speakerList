@@ -1,6 +1,6 @@
 import * as React from "react";
 import {ChangeEvent, FormEvent, PureComponent} from "react";
-import * as css from "./Form.css"
+import * as css from "./styles.css"
 
 interface FormProps {
     onAdd(name: string): void;
@@ -11,7 +11,7 @@ interface FormState {
     value : string
 }
 
-export default class Form extends PureComponent<FormProps, FormState> {
+class Form extends PureComponent<FormProps, FormState> {
 
     readonly state = {
         value: ""
@@ -40,3 +40,5 @@ export default class Form extends PureComponent<FormProps, FormState> {
         this.setState({value: event.currentTarget.value});
     }
 }
+
+export default Form

@@ -1,6 +1,12 @@
 const path = require('path');
 const ErrorOverlayPlugin = require('error-overlay-webpack-plugin');
 
+// This helper function is not strictly necessary.
+// I just don't like repeating the path.join a dozen times.
+function srcPath(subdir) {
+    return path.join(__dirname, "src", subdir);
+}
+
 module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist/assets')
@@ -18,7 +24,7 @@ module.exports = {
                             importLoaders: 1,
                             localIdentName: '[name]__[local]___[hash:base64:5]',
                             namedExport: true,
-                            camelCase: true
+                            camelCase: true,
                         }
                     }
                 ]
@@ -33,7 +39,12 @@ module.exports = {
         ],
     },
     resolve: {
-        extensions: [".ts", ".tsx", ".js"]
+        extensions: [".ts", ".tsx", ".js"],
+        alias: {
+            actions: srcPath("actions"),
+            components: srcPath("components"),
+            compositions: srcPath("compositions"),
+        }
     },
     devtool: 'cheap-module-source-map',
     devServer: {

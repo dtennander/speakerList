@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom'
 import {HashRouter, NavLink, Route} from "react-router-dom";
-import ListView from "./Compositions/ListView";
-import SpeakerView from "./Compositions/SpeakerView"
-import * as styles from "./index.css"
+import ListView from "./compositions/ListView";
+import SpeakerView from "./compositions/SpeakerView"
+import * as styles from "./styles.css"
 
 const App : React.SFC = (props: {}) => {
     return (

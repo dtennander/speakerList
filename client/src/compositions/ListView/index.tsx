@@ -1,8 +1,8 @@
 import * as React from "react";
-import List from "../Components/List";
-import Form from "../Components/Form";
-import {getList, ListType, postUserToList, resetLists} from "../actions";
-import * as css from "./ListView.css";
+import List from 'components/List';
+import Form from "components/Form";
+import {getList, ListType, postUserToList, resetLists} from "actions";
+import * as css from "./styles.css";
 
 
 interface AppState {
