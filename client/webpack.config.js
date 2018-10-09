@@ -8,10 +8,28 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.css$/,
+                use: [
+                    'style-loader',
+                    {
+                        loader: 'typings-for-css-modules-loader',
+                        options: {
+                            modules: true,
+                            importLoaders: 1,
+                            localIdentName: '[name]__[local]___[hash:base64:5]',
+                            namedExport: true,
+                            camelCase: true
+                        }
+                    }
+                ]
+            },{
                 test: /\.tsx?$/,
                 loader: "awesome-typescript-loader"
-            },
-            { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
+            },{
+                enforce: "pre",
+                test: /\.js$/,
+                loader: "source-map-loader"
+            }
         ],
     },
     resolve: {

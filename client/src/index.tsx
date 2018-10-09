@@ -1,21 +1,24 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom'
-import {HashRouter, Link, Route} from "react-router-dom";
+import {HashRouter, NavLink, Route} from "react-router-dom";
 import ListView from "./Compositions/ListView";
 import SpeakerView from "./Compositions/SpeakerView"
+import * as styles from "./index.css"
 
 const App : React.SFC = (props: {}) => {
     return (
         <HashRouter>
             <div>
-                <ul>
-                    <li>
-                        <Link to={"/"}>Double List</Link>
-                    </li>
-                    <li>
-                        <Link to={"/view"}>Speaker viewt</Link>
-                    </li>
-                </ul>
+                <div className={styles.header}>
+                    <ul>
+                        <li>
+                            <NavLink exact={true} to="/" activeClassName={styles.active}>Double List</NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/view" activeClassName={styles.active}>Speaker viewt</NavLink>
+                        </li>
+                    </ul>
+                </div>
                 <Route exact={true} path={"/"} component={ListView}/>
                 <Route path={"/view"} component={SpeakerView}/>
             </div>

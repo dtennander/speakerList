@@ -7,9 +7,12 @@
   "license": "MIT",
   "devDependencies": {
     "awesome-typescript-loader": "^5.2.1",
+    "css-loader": "^1.0.0",
     "error-overlay-webpack-plugin": "^0.1.5",
     "source-map-loader": "^0.2.4",
+    "style-loader": "^0.23.1",
     "typescript": "^3.1.1",
+    "typings-for-css-modules-loader": "^1.7.0",
     "webpack": "^4.0.1",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.9"
