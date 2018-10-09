@@ -1,12 +1,12 @@
 .lists {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     position:relative;
     flex-wrap: wrap;
 }
 
 .list {
-    margin-top: 25px;
+    margin: 25px;
     width: 250px;
     padding: 0 25px 25px 25px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
