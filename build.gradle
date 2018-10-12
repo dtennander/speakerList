@@ -6,7 +6,7 @@ plugins {
 group 'com.github.dito04'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 1.10
+sourceCompatibility = 1.11
 
 
 mainClassName = "com.github.dito04.talarlista.Server"
