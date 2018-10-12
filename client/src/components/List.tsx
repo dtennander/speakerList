@@ -14,8 +14,9 @@ const List : React.SFC<ListProps> = (props : ListProps) => {
 };
 
 function createListItem(item: Speaker) {
+    const style = item.have_spoken ? {textDecoration: "line-through"} :{};
     return (
-        <li key={item.name}> {item.name} </li>
+        <li style={style} key={item.name}> {item.name} </li>
     )
 }
 

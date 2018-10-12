@@ -4,6 +4,7 @@ import Form from "components/Form";
 import {getList, ListType, postUserToList, resetLists} from "actions";
 import * as css from "./styles.css";
 import {Speaker} from "models";
+import Timer = NodeJS.Timer;
 
 
 interface AppState {
@@ -12,6 +13,7 @@ interface AppState {
 }
 
 class ListView extends React.Component<{}, AppState> {
+    private timer: Timer;
 
     constructor(props : {}) {
         super(props);
@@ -25,11 +27,21 @@ class ListView extends React.Component<{}, AppState> {
         this.resetList = this.resetList.bind(this);
     }
 
+    componentWillUnmount() : void {
+        clearInterval(this.timer);
+        this.timer = null;
+    }
+
     componentDidMount(): void {
+        this.pollApi();
+        this.timer = setInterval(() => this.pollApi(), 1000);
+    }
+
+    pollApi() : void {
         getList(ListType.first)
             .then(list => this.setState({first: list}));
         getList(ListType.second)
-            .then(list => this.setState({second: list}))
+            .then(list => this.setState({second: list}));
     }
 
     render() {
