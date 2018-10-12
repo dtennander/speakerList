@@ -13,8 +13,12 @@ public class ConfigurationModule extends AbstractModule {
   @Port
   @Singleton
   int providePort() {
-    return getEnv("PORT")
-        .map(Integer::valueOf)
+    var propPort = Optional.ofNullable(System.getProperty("server.port"))
+        .map(Integer::valueOf);
+    var envPort = getEnv("PORT")
+        .map(Integer::valueOf);
+    return envPort
+        .or(() -> propPort)
         .orElse(8000);
   }
 
