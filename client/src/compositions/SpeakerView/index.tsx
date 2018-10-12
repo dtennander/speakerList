@@ -4,6 +4,7 @@ import {getSpeaker, markSpeakerAsSpoken} from "actions";
 import KeyboardListener from "components/KeyboardListener";
 import * as css from "./styles.css"
 import TouchListener from "components/TouchListener";
+import Timer = NodeJS.Timer;
 
 interface State {
     speaker : string
@@ -12,6 +13,7 @@ interface State {
 class SpeakerView extends PureComponent<{}, State> {
 
     readonly state = {speaker: ""};
+    private timer: Timer;
 
     constructor(props : {}) {
         super(props);
@@ -21,8 +23,13 @@ class SpeakerView extends PureComponent<{}, State> {
 
     componentDidMount(): void {
         this.updateSpeaker();
+        this.timer = setInterval(() => this.updateSpeaker(), 1000);
     }
 
+    componentWillUnmount(): void {
+        clearInterval(this.timer);
+        this.timer = null;
+    }
 
     updateSpeaker() {
         getSpeaker()
