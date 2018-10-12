@@ -7,4 +7,4 @@ allprojects {
     }
 }
 
-task stage(dependsOn: ':server:build')
+task stage(dependsOn: ':server:installDist')
