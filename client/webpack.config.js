@@ -44,6 +44,7 @@ module.exports = {
             actions: srcPath("actions"),
             components: srcPath("components"),
             compositions: srcPath("compositions"),
+            models: srcPath("models")
         }
     },
     devtool: 'cheap-module-source-map',

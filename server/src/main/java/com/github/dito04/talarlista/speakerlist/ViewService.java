@@ -59,11 +59,7 @@ public class ViewService implements Service {
   }
 
   private void getFirstList(Context context) {
-    var jsonSpeakers = getJsonView(speakerList.getFirstList())
-        .stream()
-        .map(JsonSpeaker::getName)
-        .collect(Collectors.toList());
-    context.json(jsonSpeakers);
+    context.json(getJsonView(speakerList.getFirstList()));
   }
 
   private void addToFirst(Context context) throws IOException {
@@ -71,19 +67,11 @@ public class ViewService implements Service {
     speakerNameValidator.validate(name);
     JsonSpeaker speaker = objectMapper.readValue(name, JsonSpeaker.class);
     speakerList.addToFirstList(speaker.getName());
-    var jsonSpeakers = getJsonView(speakerList.getFirstList())
-        .stream()
-        .map(JsonSpeaker::getName)
-        .collect(Collectors.toList());
-    context.json(jsonSpeakers);
+    context.json(getJsonView(speakerList.getFirstList()));
   }
 
   private void getSecondList(Context context) {
-    var jsonSpeakers = getJsonView(speakerList.getSecondList())
-        .stream()
-        .map(JsonSpeaker::getName)
-        .collect(Collectors.toList());
-    context.json(jsonSpeakers);
+    context.json(getJsonView(speakerList.getSecondList()));
   }
 
   private void addToSecond(Context context) throws IOException {
@@ -91,11 +79,7 @@ public class ViewService implements Service {
     speakerNameValidator.validate(name);
     JsonSpeaker speaker = objectMapper.readValue(name, JsonSpeaker.class);
     speakerList.addToSecondList(speaker.getName());
-    var jsonSpeakers = getJsonView(speakerList.getSecondList())
-        .stream()
-        .map(JsonSpeaker::getName)
-        .collect(Collectors.toList());
-    context.json(jsonSpeakers);
+    context.json(getJsonView(speakerList.getSecondList()));
   }
 
   private void getView(Context context) {

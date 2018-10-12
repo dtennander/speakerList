@@ -3,11 +3,12 @@ import List from 'components/List';
 import Form from "components/Form";
 import {getList, ListType, postUserToList, resetLists} from "actions";
 import * as css from "./styles.css";
+import {Speaker} from "models";
 
 
 interface AppState {
-    first : string[]
-    second : string[]
+    first : Speaker[]
+    second : Speaker[]
 }
 
 class ListView extends React.Component<{}, AppState> {

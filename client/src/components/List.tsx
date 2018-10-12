@@ -1,7 +1,8 @@
 import * as React from 'react'
+import {Speaker} from "models";
 
 interface ListProps {
-    data : string[]
+    data : Speaker[]
 }
 
 const List : React.SFC<ListProps> = (props : ListProps) => {
@@ -12,9 +13,9 @@ const List : React.SFC<ListProps> = (props : ListProps) => {
     );
 };
 
-function createListItem(item: string) {
+function createListItem(item: Speaker) {
     return (
-        <li key={item}> {item} </li>
+        <li key={item.name}> {item.name} </li>
     )
 }
 
