@@ -5,6 +5,8 @@ import static io.javalin.apibuilder.ApiBuilder.get;
 import static io.javalin.apibuilder.ApiBuilder.post;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.dito04.talarlista.Service;
 import io.javalin.Context;
+import org.jetbrains.annotations.NotNull;
 
 public class ViewService implements Service {
   private final SpeakerList speakerList;
@@ -23,6 +26,19 @@ public class ViewService implements Service {
     this.speakerList = speakerList;
     this.speakerNameValidator = speakerNameValidator;
     this.objectMapper = objectMapper;
+  }
+
+  @NotNull
+  private static JsonSpeaker getJsonView(Speaker speaker) {
+    return new JsonSpeaker(speaker.getName(), !speaker.haveNotSpoken());
+  }
+
+  @NotNull
+  private static List<JsonSpeaker> getJsonView(List<Speaker> firstList) {
+    return firstList
+        .stream()
+        .map(ViewService::getJsonView)
+        .collect(Collectors.toList());
   }
 
   @Override
@@ -43,41 +59,57 @@ public class ViewService implements Service {
   }
 
   private void getFirstList(Context context) {
-    context.json(speakerList.getFirstList());
+    var jsonSpeakers = getJsonView(speakerList.getFirstList())
+        .stream()
+        .map(JsonSpeaker::getName)
+        .collect(Collectors.toList());
+    context.json(jsonSpeakers);
   }
 
   private void addToFirst(Context context) throws IOException {
     String name = context.body();
     speakerNameValidator.validate(name);
-    Speaker speaker = objectMapper.readValue(name, Speaker.class);
+    JsonSpeaker speaker = objectMapper.readValue(name, JsonSpeaker.class);
     speakerList.addToFirstList(speaker.getName());
-    context.json(speakerList.getFirstList());
+    var jsonSpeakers = getJsonView(speakerList.getFirstList())
+        .stream()
+        .map(JsonSpeaker::getName)
+        .collect(Collectors.toList());
+    context.json(jsonSpeakers);
   }
 
   private void getSecondList(Context context) {
-    context.json(speakerList.getSecondList());
+    var jsonSpeakers = getJsonView(speakerList.getSecondList())
+        .stream()
+        .map(JsonSpeaker::getName)
+        .collect(Collectors.toList());
+    context.json(jsonSpeakers);
   }
 
   private void addToSecond(Context context) throws IOException {
     String name = context.body();
     speakerNameValidator.validate(name);
-    Speaker speaker = objectMapper.readValue(name, Speaker.class);
+    JsonSpeaker speaker = objectMapper.readValue(name, JsonSpeaker.class);
     speakerList.addToSecondList(speaker.getName());
-    context.json(speakerList.getSecondList());
+    var jsonSpeakers = getJsonView(speakerList.getSecondList())
+        .stream()
+        .map(JsonSpeaker::getName)
+        .collect(Collectors.toList());
+    context.json(jsonSpeakers);
   }
 
   private void getView(Context context) {
     speakerList.getNextSpeaker()
-        .map(Speaker::new)
+        .map(ViewService::getJsonView)
         .ifPresentOrElse(
           context::json,
           () -> context.res.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY));
   }
 
   private void updateSpeaker(Context context) throws IOException {
-    Speaker postedSpeaker = objectMapper.readValue(context.body(), Speaker.class);
+    JsonSpeaker postedSpeaker = objectMapper.readValue(context.body(), JsonSpeaker.class);
     boolean sameSpeakerAsNext = speakerList.getNextSpeaker()
-        .filter(name -> name.equals(postedSpeaker.getName()))
+        .filter(speaker -> speaker.getName().equals(postedSpeaker.getName()))
         .isPresent();
     if (sameSpeakerAsNext && postedSpeaker.haveSpoken()) {
       speakerList.removeFistSpeaker();

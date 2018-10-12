@@ -1,33 +1,25 @@
 package com.github.dito04.talarlista.speakerlist;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * POJO representing a speaker.
+ */
 class Speaker {
-
   private final String name;
   private boolean haveSpoken;
 
-  @JsonCreator
-  Speaker(@JsonProperty("name") String name) {
+  Speaker(String name) {
     this.name = name;
     this.haveSpoken = false;
+  }
+
+  boolean haveNotSpoken() {
+    return !this.haveSpoken;
   }
 
   void setHaveSpoken() {
     this.haveSpoken = true;
   }
-  boolean haveNotSpoken() {
-    return !this.haveSpoken;
-  }
 
-  @JsonGetter("have_spoken")
-  boolean haveSpoken() {
-    return haveSpoken;
-  }
-
-  @JsonGetter("name")
   String getName() {
     return this.name;
   }
