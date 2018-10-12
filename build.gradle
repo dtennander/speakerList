@@ -6,3 +6,5 @@ allprojects {
         mavenCentral()
     }
 }
+
+task stage(dependsOn: ':server:build')
