@@ -1,0 +1,62 @@
+.homeView {
+    text-align: center;
+    z-index: 100;
+}
+
+.homeView h1 {
+    margin-top: 100px;
+}
+
+.homeView h4 {
+    color: white;
+}
+
+.homeView input {
+    width: 250px;
+    height: 40px;
+}
+
+.joinButton {
+    width: 100px;
+    font-size: large;
+    margin-left: 10px;
+    margin-top: 25px;
+    background: #467cd6;
+}
+
+.homeView form {
+    alignment: center;
+}
+
+.homeView button {
+    margin-top: 25px;
+    margin-bottom: 75px ;
+}
+
+.homeView input {
+    padding: 12px 20px;
+    margin: 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    /* Do not know why... */
+    transform: translateY(-1px);
+}
+
+.wave {
+    height: 300px;
+    width: 100%;
+    left: 0;
+    top: 300px;
+    z-index: -10;
+    position:absolute;
+}
+
+.background {
+    width: 100%;
+    height: calc(100% - 600px);
+    background: linear-gradient(to right, #37568f, #467cd6);
+    top: 600px;
+    position:absolute;
+}

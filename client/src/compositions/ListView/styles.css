@@ -30,27 +30,3 @@
     margin:auto;
 
 }
-
-button {
-    margin: 50px;
-    width: 250px;
-    height: 40px;
-    border: none;
-    border-radius: 5px;
-    background: #355aa0;
-    color: white;
-    font-size: medium;
-    font-family: 'Raleway', sans-serif;
-    transition-duration: 0.4s;
-}
-
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-button:active {
-    transform: translateY(0px);
-    transition-duration: 0.01s;
-    box-shadow: none;
-}
