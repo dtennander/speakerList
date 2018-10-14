@@ -5,17 +5,19 @@ import KeyboardListener from "components/KeyboardListener";
 import * as css from "./styles.css"
 import TouchListener from "components/TouchListener";
 import Timer = NodeJS.Timer;
+import {RouteComponentProps} from "react-router";
+import {UrlParams} from "../../index";
 
 interface State {
     speaker : string
 }
 
-class SpeakerView extends PureComponent<{}, State> {
+class SpeakerView extends PureComponent<RouteComponentProps<UrlParams>, State> {
 
     readonly state = {speaker: ""};
     private timer: Timer;
 
-    constructor(props : {}) {
+    constructor(props : RouteComponentProps<UrlParams>) {
         super(props);
         this.updateSpeaker = this.updateSpeaker.bind(this);
         this.setSpeakerAsSpoken = this.setSpeakerAsSpoken.bind(this);
@@ -32,7 +34,7 @@ class SpeakerView extends PureComponent<{}, State> {
     }
 
     updateSpeaker() {
-        getSpeaker()
+        getSpeaker(this.props.match.params.id)
             .then(speaker => this.setState({speaker: speaker}))
             .catch(err => {
                 console.log(err)
@@ -52,7 +54,7 @@ class SpeakerView extends PureComponent<{}, State> {
 
     readonly setSpeakerAsSpoken = () => {
         console.log("Got space keyboard event!");
-        markSpeakerAsSpoken(this.state.speaker)
+        markSpeakerAsSpoken(this.props.match.params.id, this.state.speaker)
             .then(() => this.updateSpeaker());
     }
 }

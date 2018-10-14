@@ -1,13 +1,20 @@
 import {SFC} from "react";
 import * as React from "react";
 import * as css from "./styles.css"
+import {createList} from "../../actions";
+import {RouteComponentProps} from "react-router";
 
-const HomeView : SFC = (props: {}) =>  {
-        return (
+const HomeView : SFC<RouteComponentProps> = (props: RouteComponentProps) =>  {
+    function goToNewList() {
+        createList()
+            .then(id => props.history.push(id))
+    }
+
+    return (
             <div className={css.homeView}>
                 <h1>Welcome to SpeakList!</h1>
                 <p>Here you can create your own speakers list for every occasion!</p>
-                <button>Create a Speakers list!</button>
+                <button onClick={() => goToNewList()}>Create a Speakers list!</button>
                 <h4>or join an excising one</h4>
                 <form>
                     <input placeholder={"List key..."}/>
@@ -26,5 +33,7 @@ const HomeView : SFC = (props: {}) =>  {
             </div>
         );
 };
+
+
 
 export default HomeView;

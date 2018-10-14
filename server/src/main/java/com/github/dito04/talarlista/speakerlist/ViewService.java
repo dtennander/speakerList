@@ -6,6 +6,7 @@ import static io.javalin.apibuilder.ApiBuilder.post;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -13,18 +14,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.dito04.talarlista.Service;
+import com.github.dito04.talarlista.speakerlist.json.JsonSpeaker;
+import com.github.dito04.talarlista.speakerlist.json.NewListRsp;
 import io.javalin.Context;
 import org.jetbrains.annotations.NotNull;
 
 public class ViewService implements Service {
-  private final SpeakerList speakerList;
-  private final SpeakerNameValidator speakerNameValidator;
+  private final SpeakerListCache speakerListCache;
   private final ObjectMapper objectMapper;
 
   @Inject
-  public ViewService(SpeakerList speakerList, SpeakerNameValidator speakerNameValidator, ObjectMapper objectMapper) {
-    this.speakerList = speakerList;
-    this.speakerNameValidator = speakerNameValidator;
+  public ViewService(SpeakerListCache speakerListCache, ObjectMapper objectMapper) {
+    this.speakerListCache = speakerListCache;
     this.objectMapper = objectMapper;
   }
 
@@ -41,67 +42,123 @@ public class ViewService implements Service {
         .collect(Collectors.toList());
   }
 
+  @NotNull
+  private static String getId(Context context) {
+    return context.pathParam("id");
+  }
+
   @Override
   public void wire(Inbound inbound) {
-    inbound.wireRoute("double/", () -> {
+    inbound.wireRoute("double/", () ->
+        post(this::createNewList));
+    inbound.wireRoute("double/:id", () -> {
       get(this::getView);
       post(this::updateSpeaker);
-      delete(this::resetList);
+      delete(this::removeList);
     });
-    inbound.wireRoute("double/first", () -> {
+    inbound.wireRoute("double/:id/first", () -> {
       get(this::getFirstList);
       post(this::addToFirst);
+      delete(ctx -> this.clearList("first", ctx));
     });
-    inbound.wireRoute("double/second", () -> {
+    inbound.wireRoute("double/:id/second", () -> {
       get(this::getSecondList);
       post(this::addToSecond);
+      delete(ctx -> this.clearList("second", ctx));
     });
   }
 
-  private void getFirstList(Context context) {
-    context.json(getJsonView(speakerList.getFirstList()));
-  }
-
-  private void addToFirst(Context context) throws IOException {
-    String name = context.body();
-    speakerNameValidator.validate(name);
-    JsonSpeaker speaker = objectMapper.readValue(name, JsonSpeaker.class);
-    speakerList.addToFirstList(speaker.getName());
-    context.json(getJsonView(speakerList.getFirstList()));
-  }
-
-  private void getSecondList(Context context) {
-    context.json(getJsonView(speakerList.getSecondList()));
-  }
-
-  private void addToSecond(Context context) throws IOException {
-    String name = context.body();
-    speakerNameValidator.validate(name);
-    JsonSpeaker speaker = objectMapper.readValue(name, JsonSpeaker.class);
-    speakerList.addToSecondList(speaker.getName());
-    context.json(getJsonView(speakerList.getSecondList()));
+  private void createNewList(Context context) {
+    String id = speakerListCache.createList();
+    NewListRsp rsp = new NewListRsp(id);
+    context.json(rsp);
   }
 
   private void getView(Context context) {
-    speakerList.getNextSpeaker()
+    Optional<SpeakerList> list = getSpeakerList(context);
+    list.flatMap(SpeakerList::getNextSpeaker)
         .map(ViewService::getJsonView)
         .ifPresentOrElse(
-          context::json,
-          () -> context.res.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY));
+            context::json,
+            () -> context.res.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY));
+  }
+
+  private Optional <SpeakerList>  getSpeakerList(Context context) {
+    return speakerListCache.getList(getId(context));
   }
 
   private void updateSpeaker(Context context) throws IOException {
     JsonSpeaker postedSpeaker = objectMapper.readValue(context.body(), JsonSpeaker.class);
-    boolean sameSpeakerAsNext = speakerList.getNextSpeaker()
+    Optional<SpeakerList> list = getSpeakerList(context);
+    boolean sameSpeakerAsNext = list
+        .flatMap(SpeakerList::getNextSpeaker)
         .filter(speaker -> speaker.getName().equals(postedSpeaker.getName()))
         .isPresent();
     if (sameSpeakerAsNext && postedSpeaker.haveSpoken()) {
-      speakerList.removeFistSpeaker();
+      list.ifPresent(SpeakerList::removeFistSpeaker);
     }
   }
 
-  private void resetList(Context context) {
-    speakerList.reset();
+  private void removeList(Context context) {
+    speakerListCache.removeList(getId(context));
     context.json("Cleared");
+  }
+
+  private void clearList(String listId, Context ctx) throws IOException {
+    Optional<SpeakerList> optSpeakerList = getSpeakerList(ctx);
+    if (!optSpeakerList.isPresent()) {
+      notFoundError(ctx);
+      return;
+    }
+    if (listId.equals("first")) {
+      optSpeakerList.get().resetFirst();
+    } else {
+      optSpeakerList.get().resetSecond();
+    }
+    ctx.json("Cleared");
+  }
+
+  private void notFoundError(Context ctx) throws IOException {
+    ctx.res.sendError(HttpServletResponse.SC_NOT_FOUND);
+  }
+
+  private void getFirstList(Context context) throws IOException {
+    Optional<SpeakerList> list = getSpeakerList(context);
+    if (list.isPresent()) {
+      context.json(getJsonView(list.get().getFirstList()));
+    } else {
+      notFoundError(context);
+    }
+  }
+
+  private void addToFirst(Context context) throws IOException {
+    JsonSpeaker speaker = objectMapper.readValue(context.body(), JsonSpeaker.class);
+    Optional<SpeakerList> list = getSpeakerList(context);
+    if (!list.isPresent()) {
+      notFoundError(context);
+      return;
+    }
+    list.get().addToFirstList(speaker.getName());
+    context.json(getJsonView(list.get().getFirstList()));
+  }
+
+  private void getSecondList(Context context) throws IOException {
+    Optional<SpeakerList> list = getSpeakerList(context);
+    if (!list.isPresent()) {
+      notFoundError(context);
+      return;
+    }
+    context.json(getJsonView(list.get().getSecondList()));
+  }
+
+  private void addToSecond(Context context) throws IOException {
+    JsonSpeaker speaker = objectMapper.readValue(context.body(), JsonSpeaker.class);
+    Optional<SpeakerList> list = getSpeakerList(context);
+    if (!list.isPresent()) {
+      notFoundError(context);
+      return;
+    }
+    list.get().addToSecondList(speaker.getName());
+    context.json(getJsonView(list.get().getSecondList()));
   }
 }

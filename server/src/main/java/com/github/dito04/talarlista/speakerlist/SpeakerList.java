@@ -39,8 +39,11 @@ class SpeakerList {
     getFirstSpeaker().ifPresent(Speaker::setHaveSpoken);
   }
 
-  void reset() {
+  void resetFirst() {
     firstList.clear();
+  }
+
+  void resetSecond() {
     secondList.clear();
   }
 }

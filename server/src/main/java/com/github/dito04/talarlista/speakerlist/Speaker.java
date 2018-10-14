@@ -1,7 +1,7 @@
 package com.github.dito04.talarlista.speakerlist;
 
 /**
- * POJO representing a speaker.
+ * Data class for a speaker.
  */
 class Speaker {
   private final String name;

@@ -5,6 +5,8 @@ import {getList, ListType, postUserToList, resetLists} from "actions";
 import * as css from "./styles.css";
 import {Speaker} from "models";
 import Timer = NodeJS.Timer;
+import {RouteComponentProps} from "react-router";
+import {UrlParams} from "../../index";
 
 
 interface AppState {
@@ -12,10 +14,10 @@ interface AppState {
     second : Speaker[]
 }
 
-class ListView extends React.Component<{}, AppState> {
+class ListView extends React.Component<RouteComponentProps<UrlParams>, AppState> {
     private timer: Timer;
 
-    constructor(props : {}) {
+    constructor(props : RouteComponentProps<UrlParams>) {
         super(props);
         this.state = {
             first: [],
@@ -38,9 +40,9 @@ class ListView extends React.Component<{}, AppState> {
     }
 
     pollApi() : void {
-        getList(ListType.first)
+        getList(this.props.match.params.id, ListType.first)
             .then(list => this.setState({first: list}));
-        getList(ListType.second)
+        getList(this.props.match.params.id, ListType.second)
             .then(list => this.setState({second: list}));
     }
 
@@ -73,17 +75,17 @@ class ListView extends React.Component<{}, AppState> {
     }
 
     private addToFirstList(name : string) {
-        postUserToList(name, "first")
+        postUserToList(this.props.match.params.id, name, "first")
             .then(list => this.setState({first: list}));
     }
 
     private addToSecondList(name : string) {
-        postUserToList(name, "second")
+        postUserToList(this.props.match.params.id, name, "second")
             .then(list => this.setState({second: list}));
     }
 
     private resetList() {
-        resetLists()
+        resetLists(this.props.match.params.id)
             .then(() => this.componentDidMount())
     }
 }

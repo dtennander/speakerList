@@ -1,16 +1,16 @@
-package com.github.dito04.talarlista.speakerlist;
+package com.github.dito04.talarlista.speakerlist.json;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-class JsonSpeaker {
+public class JsonSpeaker {
 
   private final String name;
   private boolean haveSpoken;
 
   @JsonCreator
-  JsonSpeaker(
+  public JsonSpeaker(
       @JsonProperty("name") String name,
       @JsonProperty("have_spoken") boolean haveSpoken) {
     this.name = name;
@@ -18,12 +18,12 @@ class JsonSpeaker {
   }
 
   @JsonGetter("have_spoken")
-  boolean haveSpoken() {
+  public boolean haveSpoken() {
     return haveSpoken;
   }
 
   @JsonGetter("name")
-  String getName() {
+  public String getName() {
     return this.name;
   }
 }
