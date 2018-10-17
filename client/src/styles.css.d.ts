@@ -1,2 +1,1 @@
-export const header: string;
-export const active: string;
+export const app: string;

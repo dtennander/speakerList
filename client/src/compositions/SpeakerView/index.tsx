@@ -6,7 +6,7 @@ import * as css from "./styles.css"
 import TouchListener from "components/TouchListener";
 import Timer = NodeJS.Timer;
 import {RouteComponentProps} from "react-router";
-import {UrlParams} from "../../index";
+import {UrlParams} from "models";
 
 interface State {
     speaker : string

@@ -3,10 +3,9 @@ import List from 'components/List';
 import Form from "components/Form";
 import {getList, ListType, postUserToList, resetLists} from "actions";
 import * as css from "./styles.css";
-import {Speaker} from "models";
+import {Speaker, UrlParams} from "models";
 import Timer = NodeJS.Timer;
 import {RouteComponentProps} from "react-router";
-import {UrlParams} from "../../index";
 
 
 interface AppState {

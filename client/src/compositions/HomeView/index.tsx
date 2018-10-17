@@ -1,7 +1,7 @@
 import {SFC} from "react";
 import * as React from "react";
 import * as css from "./styles.css"
-import {createList} from "../../actions";
+import {createList} from "actions";
 import {RouteComponentProps} from "react-router";
 
 const HomeView : SFC<RouteComponentProps> = (props: RouteComponentProps) =>  {

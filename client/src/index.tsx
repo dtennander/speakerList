@@ -1,19 +1,16 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom'
+import * as styles from './styles.css'
 import {HashRouter, Route} from "react-router-dom";
 import HomeView from "compositions/HomeView";
-import IdView from "compositions/IdView";
-
-export interface UrlParams {
-    id : string
-}
+import SessionView from "compositions/SessionView";
 
 const App : React.SFC = (props: {}) => {
     return (
         <HashRouter>
-            <div>
+            <div id={styles.app}>
                 <Route exact={true} path={"/"} component={HomeView}/>
-                <Route path={"/:id"} component={IdView}/>
+                <Route path={"/:id"} component={SessionView}/>
             </div>
         </HashRouter>
     )

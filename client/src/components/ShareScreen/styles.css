@@ -1,0 +1,35 @@
+.spashScreen {
+    background: #fefcff;
+    position: absolute;
+    z-index: 10000;
+    top: 18vh;
+    right: calc(50% - 250px);
+    left: calc(50% - 250px);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 2vh 5vw 5vh 5vw;
+    text-align: center;
+}
+
+.spashScreen input {
+    border: none;
+    border-bottom: 2px solid rgba(27, 47, 82, 0.38);
+    font-size: 1em;
+    font-family: 'Raleway', sans-serif;
+    outline:0;
+    text-align: center;
+    width: calc(100% - 100px);
+}
+
+.spashScreen button {
+    width: 40px;
+    margin: 10px;
+}
+
+.spashScreen button:hover {
+    transform: translateY(0);
+    box-shadow: 0 0;
+}
+
+.spashScreen button:active {
+    transform: translateY(1px);
+}
