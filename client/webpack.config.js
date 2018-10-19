@@ -50,6 +50,7 @@ module.exports = {
     devtool: 'cheap-module-source-map',
     devServer: {
         contentBase: path.join(__dirname, 'dist'),
+        host: "0.0.0.0",
         publicPath: '/assets',
         proxy: {
             '/api': {
