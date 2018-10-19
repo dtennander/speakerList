@@ -1,7 +1,6 @@
 package com.github.dito04.talarlista;
 
 import com.github.dito04.talarlista.config.ConfigurationModule;
-import com.github.dito04.talarlista.hello.HelloWorldService;
 import com.github.dito04.talarlista.speakerlist.ViewService;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -15,7 +14,6 @@ public class ServerModule extends AbstractModule {
     install(new ConfigurationModule());
 
     Multibinder<Service> services = Multibinder.newSetBinder(binder(), Service.class);
-    services.addBinding().to(HelloWorldService.class);
     services.addBinding().to(ViewService.class);
   }
 
