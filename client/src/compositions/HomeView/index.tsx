@@ -1,13 +1,20 @@
-import {SFC} from "react";
+import {RefObject, SFC} from "react";
 import * as React from "react";
 import * as css from "./styles.css"
 import {createList} from "actions";
 import {RouteComponentProps} from "react-router";
 
+const keyInputRef : RefObject<HTMLInputElement> = React.createRef();
+
 const HomeView : SFC<RouteComponentProps> = (props: RouteComponentProps) =>  {
     function goToNewList() {
         createList()
             .then(id => props.history.push(id))
+    }
+
+    function redirectToSession() {
+        let id = keyInputRef.current.value;
+        props.history.push(id)
     }
 
     return (
@@ -17,8 +24,8 @@ const HomeView : SFC<RouteComponentProps> = (props: RouteComponentProps) =>  {
                 <button onClick={() => goToNewList()}>Create a Speakers list!</button>
                 <h4>or join an excising one</h4>
                 <form>
-                    <input placeholder={"List key..."}/>
-                    <button className={css.joinButton}>join!</button>
+                    <input ref={keyInputRef} placeholder={"List key..."}/>
+                    <button onClick={redirectToSession} className={css.joinButton}>join!</button>
                 </form>
                 <svg className={css.wave} viewBox={"0 0 500 500"} preserveAspectRatio={"none"}>
                     <defs>
