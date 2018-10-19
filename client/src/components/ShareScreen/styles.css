@@ -33,3 +33,14 @@
 .spashScreen button:active {
     transform: translateY(1px);
 }
+
+.exitButton {
+    position: absolute;
+    top: 5px;
+    left: 7px;
+    background: rgba(0,0,0,0);
+    color: #37568f;
+    margin: 0 !important;
+    width: 20px !important;
+    height: 20px;
+}

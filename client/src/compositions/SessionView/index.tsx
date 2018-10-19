@@ -38,7 +38,7 @@ class SessionView extends PureComponent<RouteComponentProps<UrlParams>, SessionV
                 </div>
                 <Route path={"/:id/speaker"} component={SpeakerView}/>
                 <Route exact={true} path={"/:id"} component={ListView}/>
-                {this.state.share && (<ShareScreen url={window.location.href}/>)}
+                {this.state.share && (<ShareScreen url={window.location.href} onClose={() => this.toggleShareScreen()}/>)}
             </div>
         )
     }
