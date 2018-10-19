@@ -2,13 +2,13 @@ import * as React from "react";
 import {PureComponent, RefObject} from "react";
 import * as styles from "./styles.css";
 
+const CLIP_BOARD = <div dangerouslySetInnerHTML={{__html: "&#128203;"}}/>;
 
 interface ShareScreenProps {
     url: string,
     id: string,
     onClose:()=> void
 }
-
 
 class ShareScreen extends PureComponent<ShareScreenProps> {
 
@@ -40,7 +40,7 @@ class ShareScreen extends PureComponent<ShareScreenProps> {
                        onSelect={(event) => event.currentTarget.setSelectionRange(0,9999)}
                        readOnly={true}
                        value={this.props.url}/>
-                <button onClick={() => this.handleClickOnCopyButton()}>📋</button>
+                <button onClick={() => this.handleClickOnCopyButton()}>{CLIP_BOARD}</button>
                 <div><p>Or giving them this key: <b>{this.props.id}</b></p></div>
             </div>
         );

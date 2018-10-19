@@ -7,6 +7,8 @@ import SpeakerView from "compositions/SpeakerView";
 import ListView from "compositions/ListView";
 import ShareScreen from "components/ShareScreen"
 
+const LEFT_ARROW = <div dangerouslySetInnerHTML={{__html: "&LeftArrow;"}}/>;
+
 interface SessionViewState {
     share : boolean
 }
@@ -21,7 +23,7 @@ class SessionView extends PureComponent<RouteComponentProps<UrlParams>, SessionV
                 <div className={styles.header}>
                     <ul>
                         <li>
-                            <NavLink exact={true} to={"/"} activeClassName={styles.active}>←</NavLink>
+                            <NavLink exact={true} to={"/"} activeClassName={styles.active}>{LEFT_ARROW}</NavLink>
                         </li>
                         <li>
                             <NavLink exact={true} to={"/" + this.props.match.params.id} activeClassName={styles.active}>
