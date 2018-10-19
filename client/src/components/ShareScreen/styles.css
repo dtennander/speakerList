@@ -21,8 +21,9 @@
 }
 
 .spashScreen button {
-    width: 40px;
+    width: 50px;
     margin: 10px;
+    text-align: center;
 }
 
 .spashScreen button:hover {

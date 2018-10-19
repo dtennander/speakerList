@@ -12,7 +12,6 @@ interface ShareScreenProps {
 class ShareScreen extends PureComponent<ShareScreenProps> {
 
     splashScreenInput : RefObject<HTMLInputElement>;
-
     containerRef: RefObject<HTMLDivElement>;
 
     constructor(props : ShareScreenProps) {
@@ -37,7 +36,7 @@ class ShareScreen extends PureComponent<ShareScreenProps> {
                 <button onClick={this.props.onClose} className={styles.exitButton}>x</button>
                 <p>Share this list by sending this link:</p>
                 <input ref={this.splashScreenInput}
-                       onSelect={(event) => event.currentTarget.select()}
+                       onSelect={(event) => event.currentTarget.setSelectionRange(0,9999)}
                        readOnly={true}
                        value={this.props.url}/>
                 <button onClick={() => this.handleClickOnCopyButton()}>📋</button>
@@ -46,12 +45,12 @@ class ShareScreen extends PureComponent<ShareScreenProps> {
     }
 
     handleClickOnCopyButton = () => {
-        this.splashScreenInput.current.select();
+        this.splashScreenInput.current.setSelectionRange(0,9999);
         document.execCommand('copy');
     };
 
     handleClickAnyWare = (event : MouseEvent) => {
-        if (this.containerRef.current && !this.containerRef.current.contains((event.currentTarget as Node))) {
+        if (this.containerRef.current && !this.containerRef.current.contains((event.target as Node))) {
            this.props.onClose()
         }
     }
