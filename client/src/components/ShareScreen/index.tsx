@@ -5,6 +5,7 @@ import * as styles from "./styles.css";
 
 interface ShareScreenProps {
     url: string,
+    id: string,
     onClose:()=> void
 }
 
@@ -40,6 +41,7 @@ class ShareScreen extends PureComponent<ShareScreenProps> {
                        readOnly={true}
                        value={this.props.url}/>
                 <button onClick={() => this.handleClickOnCopyButton()}>📋</button>
+                <div><p>Or giving them this key: <b>{this.props.id}</b></p></div>
             </div>
         );
     }
