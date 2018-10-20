@@ -31,8 +31,16 @@ public class Server {
   }
 
   private void start() {
+    // Api calls
     services.forEach(s -> s.wire(this::wireRoute));
-    javalin.enableStaticFiles(staticFilesLocation);
+    // Static resources
+    javalin.get("/assets/*", context ->
+        context.result(getClass().getResourceAsStream(staticFilesLocation + context.path())));
+    javalin.get("/*", context -> {
+      context.result(getClass().getResourceAsStream(staticFilesLocation + "/index.html"));
+      context.res.setContentType("text/html");
+    });
+    // Start server
     javalin.start(port);
   }
 
