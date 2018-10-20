@@ -6,6 +6,7 @@ import {UrlParams} from "models";
 import SpeakerView from "compositions/SpeakerView";
 import ListView from "compositions/ListView";
 import ShareScreen from "components/ShareScreen"
+import {getSpeaker} from "actions";
 
 const LEFT_ARROW = <div dangerouslySetInnerHTML={{__html: "&LeftArrow;"}}/>;
 
@@ -16,6 +17,11 @@ interface SessionViewState {
 class SessionView extends PureComponent<RouteComponentProps<UrlParams>, SessionViewState> {
 
     readonly state : SessionViewState= {share: false};
+
+    componentDidMount(): void {
+        getSpeaker(this.props.match.params.id)
+            .catch(() => this.props.history.push("/"))
+    }
 
     render() {
         return (
