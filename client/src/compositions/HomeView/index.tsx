@@ -1,7 +1,7 @@
-import {RefObject, SFC} from "react";
 import * as React from "react";
+import {RefObject, SFC} from "react";
 import * as css from "./styles.css"
-import {createList} from "actions";
+import {createList, getSpeaker} from "actions";
 import {RouteComponentProps} from "react-router";
 
 const keyInputRef : RefObject<HTMLInputElement> = React.createRef();
@@ -14,7 +14,10 @@ const HomeView : SFC<RouteComponentProps> = (props: RouteComponentProps) =>  {
 
     function redirectToSession() {
         let id = keyInputRef.current.value;
-        props.history.push(id)
+        keyInputRef.current.value = "";
+        getSpeaker(id)
+            .then(() => props.history.push(id))
+            .catch(() => console.log("List not present!"))
     }
 
     return (
