@@ -29,24 +29,6 @@ public class ViewService implements Service {
     this.objectMapper = objectMapper;
   }
 
-  @NotNull
-  private static JsonSpeaker getJsonView(Speaker speaker) {
-    return new JsonSpeaker(speaker.getName(), !speaker.haveNotSpoken());
-  }
-
-  @NotNull
-  private static List<JsonSpeaker> getJsonView(List<Speaker> firstList) {
-    return firstList
-        .stream()
-        .map(ViewService::getJsonView)
-        .collect(Collectors.toList());
-  }
-
-  @NotNull
-  private static String getId(Context context) {
-    return context.pathParam("id");
-  }
-
   @Override
   public void wire(Inbound inbound) {
     inbound.wireRoute("double/", () ->
@@ -75,16 +57,38 @@ public class ViewService implements Service {
   }
 
   private void getView(Context context) {
-    Optional<SpeakerList> list = getSpeakerList(context);
-    list.flatMap(SpeakerList::getNextSpeaker)
-        .map(ViewService::getJsonView)
+    getSpeakerList(context)
         .ifPresentOrElse(
-            context::json,
-            () -> context.res.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY));
+            l -> {
+                var speaker = l.getNextSpeaker()
+                    .map(ViewService::getJsonView)
+                    .orElseGet(() -> new JsonSpeaker("", false));
+                context.json(speaker);
+            },
+            () ->
+                context.res.setStatus(HttpServletResponse.SC_NOT_FOUND));
   }
 
-  private Optional <SpeakerList>  getSpeakerList(Context context) {
+  @NotNull
+  private static JsonSpeaker getJsonView(Speaker speaker) {
+    return new JsonSpeaker(speaker.getName(), !speaker.haveNotSpoken());
+  }
+
+  private Optional<SpeakerList> getSpeakerList(Context context) {
     return speakerListCache.getList(getId(context));
+  }
+
+  @NotNull
+  private static List<JsonSpeaker> getJsonView(List<Speaker> firstList) {
+    return firstList
+        .stream()
+        .map(ViewService::getJsonView)
+        .collect(Collectors.toList());
+  }
+
+  @NotNull
+  private static String getId(Context context) {
+    return context.pathParam("id");
   }
 
   private void updateSpeaker(Context context) throws IOException {
