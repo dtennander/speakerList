@@ -26,10 +26,13 @@ const HomeView : SFC<RouteComponentProps> = (props: RouteComponentProps) =>  {
                 <p>Here you can create your own speakers list for every occasion!</p>
                 <button onClick={() => goToNewList()}>Create a Speakers list!</button>
                 <h4>or join an excising one</h4>
-                <form>
-                    <input ref={keyInputRef} placeholder={"List key..."}/>
+                <div>
+                    <input
+                        onKeyPress={(e) => e.key == "Enter" ? redirectToSession() : {}}
+                        ref={keyInputRef}
+                        placeholder={"List key..."}/>
                     <button onClick={redirectToSession} className={css.joinButton}>join!</button>
-                </form>
+                </div>
                 <svg className={css.wave} viewBox={"0 0 500 500"} preserveAspectRatio={"none"}>
                     <defs>
                         <linearGradient id={"Gradient1"} x1={"0"} x2={"1"} y1={"0"} y2={"1"}>

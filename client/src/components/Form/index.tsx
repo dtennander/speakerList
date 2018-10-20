@@ -32,7 +32,7 @@ class Form extends PureComponent<FormProps, FormState> {
     private readonly handleSubmit = (event : FormEvent) => {
         event.preventDefault();
         console.log("Submitting form: " + this.state.value);
-        this.props.onAdd(this.state.value)
+        this.props.onAdd(this.state.value);
         this.setState({value: ""})
     };
 

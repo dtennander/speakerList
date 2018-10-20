@@ -28,20 +28,20 @@ function postJson(url : string, payload : any) : Promise<Response> {
 }
 
 export function getSpeaker(id : string) : Promise<string> {
-    return fetch("api/double/" + id)
+    return fetch("/api/double/" + id)
         .then(rsp => rsp.json())
         .then(rsp => (rsp as Speaker).name)
 }
 
 export function markSpeakerAsSpoken(id : string, name : string) : Promise<Response | void> {
-    return postJson("api/double/" + id, {name: name, have_spoken: true})
+    return postJson("/api/double/" + id, {name: name, have_spoken: true})
         .catch(err => console.log(err))
 }
 
 export function resetLists(id : string) : Promise<void> {
-    return fetch("api/double/" + id + "/first", {
+    return fetch("/api/double/" + id + "/first", {
         method: "DELETE"
-    }).then(() => fetch("api/double/" + id + "/second", {
+    }).then(() => fetch("/api/double/" + id + "/second", {
         method: "DELETE"
     }).then(() => { }));
 }
@@ -51,7 +51,7 @@ interface IdRsp {
 }
 
 export function createList() : Promise<string> {
-    return postJson("api/double/", {})
+    return postJson("/api/double/", {})
         .then(rsp => rsp.json())
         .then(rsp => (rsp as IdRsp).id)
 }
