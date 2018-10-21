@@ -67,12 +67,13 @@
     background: linear-gradient(to right, #37568f, #467cd6);
     top: 600px;
     position:absolute;
+    transform: translateY(-1px);
     z-index: -100;
 }
 
 @media (max-height: 600px) {
     .background {
-        height: 1px;
+        height: 35px;
     }
 }
 
