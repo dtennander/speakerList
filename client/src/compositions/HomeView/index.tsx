@@ -30,7 +30,7 @@ const HomeView : SFC<RouteComponentProps> = (props: RouteComponentProps) =>  {
                 <h1>Welcome to SpeakerList!</h1>
                 <p>Here you can create a speaker list for every occasion!</p>
                 <button onClick={() => goToNewList()}>Create a Speakers list!</button>
-                <h4>or join an excising one</h4>
+                <h4>or join an existing one</h4>
                 <div>
                     <input
                         onKeyPress={(e) => e.key == "Enter" ? redirectToSession() : {}}
@@ -60,7 +60,5 @@ const HomeView : SFC<RouteComponentProps> = (props: RouteComponentProps) =>  {
             </div>
         );
 };
-
-
 
 export default HomeView;
