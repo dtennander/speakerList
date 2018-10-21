@@ -101,3 +101,27 @@
     color: white;
     text-decoration: none;
 }
+
+.createdBy {
+    position: center;
+    display:inline;
+}
+
+.githubLink {
+    display:inline;
+    position: absolute;
+    right: 10px;
+    transform: translateY(-5px);
+}
+
+.githubLink svg {
+    vertical-align: middle;
+    margin-left: 3px;
+    height: 30px;
+}
+
+@media (max-width: 400px) {
+    .githubLink {
+        display:none;
+    }
+}
