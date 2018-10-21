@@ -22,8 +22,8 @@ const HomeView : SFC<RouteComponentProps> = (props: RouteComponentProps) =>  {
 
     return (
             <div className={css.homeView}>
-                <h1>Welcome to SpeakList!</h1>
-                <p>Here you can create your own speakers list for every occasion!</p>
+                <h1>Welcome to SpeakerList!</h1>
+                <p>Here you can create a speaker list for every occasion!</p>
                 <button onClick={() => goToNewList()}>Create a Speakers list!</button>
                 <h4>or join an excising one</h4>
                 <div>
