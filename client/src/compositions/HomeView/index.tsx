@@ -43,6 +43,9 @@ const HomeView : SFC<RouteComponentProps> = (props: RouteComponentProps) =>  {
                     <path d={"M0,90 C150,30 350,170 500,90 L500,500 L0,500 Z"} style={{stroke: "none", fill:"url(#Gradient1)"}}/>
                 </svg>
                 <div className={css.background}/>
+                <div className={css.footer}>
+                    Created by <a href={"mailto:david.tennander+speaker@gmail.com"}>David Tennander</a>
+                </div>
             </div>
         );
 };
